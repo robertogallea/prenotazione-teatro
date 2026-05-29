@@ -93,7 +93,7 @@ class SeatsSeeder extends Seeder
             'block_key'           => 'gallery',
             'label'               => 'Galleria',
             'sort_order'          => 1,
-            'rows'                => [32,31,30,29,28,27,26,25,'F1g'],
+            'rows'                => [32,31,30,29,28,27,26,25,24],
             'seats_per_row'       => self::PLATEA_SEATS,
             'seat_offset'         => 0,
             'has_corridor'        => true,
