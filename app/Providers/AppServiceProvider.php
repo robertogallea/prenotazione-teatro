@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        URL::forceHttps($this->app->isProduction());
+
     }
 
     /**
@@ -25,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        URL::forceHttps($this->app->isProduction());
     }
 
     /**
