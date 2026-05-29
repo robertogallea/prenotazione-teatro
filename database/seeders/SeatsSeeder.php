@@ -112,11 +112,28 @@ class SeatsSeeder extends Seeder
 
     public function run(): void
     {
-        DB::statement('PRAGMA foreign_keys = OFF');
+
+        $driver = DB::connection()->getDriverName();
+
+        if ($driver === 'sqlite') {
+            DB::statement('PRAGMA foreign_keys = OFF');
+        } elseif ($driver === 'mysql') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        } elseif ($driver === 'pgsql') {
+            DB::statement('SET session_replication_role = replica');
+        }
         DB::table('bookings')->truncate();
         DB::table('seats')->truncate();
         DB::table('seat_groups')->truncate();
-        DB::statement('PRAGMA foreign_keys = ON');
+        $driver = DB::connection()->getDriverName();
+
+        if ($driver === 'sqlite') {
+            DB::statement('PRAGMA foreign_keys = ON');
+        } elseif ($driver === 'mysql') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        } elseif ($driver === 'pgsql') {
+            DB::statement('SET session_replication_role = DEFAULT');
+        }
 
         $this->seedSeatGroups();
         $this->seedSeats();
