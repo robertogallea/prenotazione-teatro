@@ -25,11 +25,13 @@ cmds = [
                               "npm run build",
                               "php artisan config:cache",
                               "php artisan route:cache",
-                              "php artisan view:cache"
+                              "php artisan view:cache",
+                              "mkdir -p /app/storage/database",
+                              touch /app/storage/database/db.sqlite
                             ]
 
                             [start]
-                            cmd = "mkdir -p /app/storage/database && touch /app/storage/database/db.sqlite && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
+                            cmd = "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
   "php artisan view:cache"
 ]
 
