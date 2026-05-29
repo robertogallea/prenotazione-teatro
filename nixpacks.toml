@@ -7,7 +7,6 @@ nixPkgs = [
   "php85",
   "php85Packages.composer",
   "nodejs_22",
-  "npm-9_x",
   "postgresql"
 ]
 
@@ -20,6 +19,8 @@ cmds = [
 [phases.build]
 cmds = [
   "npm run build",
+  "php -m | grep -E 'PDO|pgsql|pdo_pgsql'",
+  "php artisan config:clear",
   "php artisan config:cache",
   "php artisan route:cache",
   "php artisan view:cache"
