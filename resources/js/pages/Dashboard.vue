@@ -7,6 +7,16 @@ import ExportController from '@/actions/App/Http/Controllers/ExportController';
 import BookingModal from '@/components/BookingModal.vue';
 import SeatMap from '@/components/SeatMap.vue';
 import { Button } from '@/components/ui/button';
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
 import { dashboard } from '@/routes';
 
 defineOptions({
@@ -60,7 +70,7 @@ const freeCount = computed(() => props.seats.filter((s) => !s.booking).length);
 const bookedCount = computed(() => props.seats.filter((s) => s.booking).length);
 
 // ── Zoom ─────────────────────────────────────────────────────────────────
-const zoom = ref(1);
+const zoom = ref(2);
 
 function zoomIn() {
     zoom.value = Math.min(zoom.value + 0.25, 3);
@@ -140,11 +150,11 @@ function handleWheel(e: WheelEvent) {
         </div>
 
         <!-- Seat map (scrollable container + zoomable inner div) -->
-        <div class="overflow-auto rounded-xl border p-3" @wheel.passive="handleWheel">
+        <div class="flex flex-1 justify-center overflow-auto rounded-xl border p-3" @wheel.passive="handleWheel">
             <div
                 :style="{
                     transform: `scale(${zoom})`,
-                    transformOrigin: 'top left',
+                    transformOrigin: 'top center',
                     display: 'inline-block',
                 }"
             >
@@ -175,14 +185,32 @@ function handleWheel(e: WheelEvent) {
                 </p>
             </div>
             <div class="flex shrink-0 gap-2">
-                <Form
-                    v-bind="BookingController.destroy.form({ booking: inspectedSeat.booking.id })"
-                    class="inline"
-                >
-                    <Button type="submit" variant="destructive" size="sm">
-                        Cancella prenotazione
-                    </Button>
-                </Form>
+                <Dialog>
+                    <DialogTrigger as-child>
+                        <Button variant="destructive" size="sm">Cancella prenotazione</Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Conferma eliminazione</DialogTitle>
+                            <DialogDescription>
+                                Sei sicuro di voler cancellare la prenotazione per
+                                <strong>{{ inspectedSeat.booking.booked_for }}</strong>?
+                                Questa operazione non può essere annullata.
+                            </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
+                            <DialogClose as-child>
+                                <Button variant="outline">Annulla</Button>
+                            </DialogClose>
+                            <Form
+                                v-bind="BookingController.destroy.form({ booking: inspectedSeat.booking.id })"
+                                @success="inspectedSeat = null"
+                            >
+                                <Button type="submit" variant="destructive">Conferma</Button>
+                            </Form>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
                 <Button variant="ghost" size="sm" @click="inspectedSeat = null">Chiudi</Button>
             </div>
         </div>
