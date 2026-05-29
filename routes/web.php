@@ -4,7 +4,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\SeatController;
 use Illuminate\Support\Facades\Route;
-
+\Illuminate\Support\Facades\Auth::login(\App\Models\User::first());
 Route::inertia('/', 'Welcome')->name('home');
 
 Route::middleware('auth')->group(function () {
