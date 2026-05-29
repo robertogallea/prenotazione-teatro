@@ -3,6 +3,7 @@ nixPkgs = ["php83", "php83Extensions.pdo", "php83Extensions.sqlite3", "php83Exte
 [phases.install]
 cmds = [
   "composer install --no-dev --optimize-autoloader",
+  "php artisan migrate --force"
   "npm install"
 ]
 
