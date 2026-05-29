@@ -15,24 +15,31 @@ class ExportController extends Controller
 
         return response()->streamDownload(function (): void {
             $output = fopen('php://output', 'w');
-            fwrite($output, "\xEF\xBB\xBF"); // UTF-8 BOM for Excel
 
-            fputcsv($output, ['Settore', 'Blocco', 'Fila', 'Posto', 'Etichetta', 'Prenotato per', 'Note', 'Data prenotazione']);
+            if ($output === false) {
+                throw new \RuntimeException('Failed to open output stream');
+            }
 
-            Booking::with('seat')->orderBy('created_at')->each(function (Booking $booking) use ($output): void {
-                fputcsv($output, [
-                    $booking->seat->section,
-                    $booking->seat->block_key,
-                    $booking->seat->row,
-                    $booking->seat->number,
-                    $booking->seat->label,
-                    $booking->booked_for,
-                    $booking->notes ?? '',
-                    $booking->created_at->format('Y-m-d H:i:s'),
-                ]);
-            });
+            try {
+                fwrite($output, "\xEF\xBB\xBF"); // UTF-8 BOM for Excel
 
-            fclose($output);
+                fputcsv($output, ['Settore', 'Blocco', 'Fila', 'Posto', 'Etichetta', 'Prenotato per', 'Note', 'Data prenotazione']);
+
+                Booking::with('seat')->orderBy('created_at')->cursor()->each(function (Booking $booking) use ($output): void {
+                    fputcsv($output, [
+                        $booking->seat->section,
+                        $booking->seat->block_key,
+                        $booking->seat->row,
+                        $booking->seat->number,
+                        $booking->seat->label,
+                        $booking->booked_for,
+                        $booking->notes ?? '',
+                        $booking->created_at->format('Y-m-d H:i:s'),
+                    ]);
+                });
+            } finally {
+                fclose($output);
+            }
         }, $filename, ['Content-Type' => 'text/csv']);
     }
 

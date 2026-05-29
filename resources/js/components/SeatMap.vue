@@ -45,7 +45,9 @@ type Slot =
 
 function buildColumnSlots(block: SeatGroup, row: string | number): Slot[] {
     const slots: Slot[] = [];
-    const half = Math.ceil(block.seats_per_row.length / 2);
+    const half = block.corridor_after_slot !== null
+        ? block.corridor_after_slot + 1
+        : Math.ceil(block.seats_per_row.length / 2);
 
     for (let i = 0; i < block.seat_offset; i++) {
         slots.push({ type: 'empty' });
@@ -76,7 +78,9 @@ type Label = { type: 'value'; text: string | number } | { type: 'empty' } | { ty
 
 function buildLabels(block: SeatGroup): Label[] {
     const labels: Label[] = [];
-    const half = Math.ceil(block.seats_per_row.length / 2);
+    const half = block.corridor_after_slot !== null
+        ? block.corridor_after_slot + 1
+        : Math.ceil(block.seats_per_row.length / 2);
 
     for (let i = 0; i < block.seat_offset; i++) {
         labels.push({ type: 'empty' });
