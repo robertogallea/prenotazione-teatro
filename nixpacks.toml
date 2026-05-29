@@ -11,7 +11,25 @@ cmds = [
 cmds = [
   "npm run build",
   "php artisan config:cache",
-  "php artisan route:cache",
+  "php artisan route:cache",[phases.setup]
+                            nixPkgs = ["php83", "php83Extensions.pdo", "php83Extensions.sqlite3", "php83Extensions.mbstring", "php83Extensions.xml", "php83Extensions.tokenizer", "php83Extensions.openssl", "php83Extensions.curl", "php83Extensions.fileinfo", "nodejs", "nodePackages.npm"]
+
+                            [phases.install]
+                            cmds = [
+                              "composer install --no-dev --optimize-autoloader",
+                              "npm install"
+                            ]
+
+                            [phases.build]
+                            cmds = [
+                              "npm run build",
+                              "php artisan config:cache",
+                              "php artisan route:cache",
+                              "php artisan view:cache"
+                            ]
+
+                            [start]
+                            cmd = "mkdir -p /app/storage/database && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
   "php artisan view:cache"
 ]
 
