@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\ExportController::csv
 * @see app/Http/Controllers/ExportController.php:12
@@ -44,6 +44,43 @@ csv.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
+* @see \App\Http\Controllers\ExportController::csv
+* @see app/Http/Controllers/ExportController.php:12
+* @route '/export/csv'
+*/
+const csvForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: csv.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\ExportController::csv
+* @see app/Http/Controllers/ExportController.php:12
+* @route '/export/csv'
+*/
+csvForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: csv.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\ExportController::csv
+* @see app/Http/Controllers/ExportController.php:12
+* @route '/export/csv'
+*/
+csvForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: csv.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+csv.form = csvForm
+
+/**
 * @see \App\Http\Controllers\ExportController::pdf
 * @see app/Http/Controllers/ExportController.php:46
 * @route '/export/pdf'
@@ -86,6 +123,43 @@ pdf.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: pdf.url(options),
     method: 'head',
 })
+
+/**
+* @see \App\Http\Controllers\ExportController::pdf
+* @see app/Http/Controllers/ExportController.php:46
+* @route '/export/pdf'
+*/
+const pdfForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: pdf.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\ExportController::pdf
+* @see app/Http/Controllers/ExportController.php:46
+* @route '/export/pdf'
+*/
+pdfForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: pdf.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\ExportController::pdf
+* @see app/Http/Controllers/ExportController.php:46
+* @route '/export/pdf'
+*/
+pdfForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: pdf.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+pdf.form = pdfForm
 
 const exportMethod = {
     csv: Object.assign(csv, csv),
