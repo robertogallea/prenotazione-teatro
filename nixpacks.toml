@@ -1,11 +1,12 @@
 [variables]
 NIXPACKS_PHP_ROOT_DIR = "/app/public"
 NIXPACKS_PHP_FALLBACK_PATH = "/index.php"
+NIXPACKS_PHP_VERSION = "8.3"
 
 [phases.setup]
 nixPkgs = [
-  "php85",
-  "php85Packages.composer",
+  "php83",
+  "php83Packages.composer",
   "nodejs_22",
   "postgresql"
 ]
