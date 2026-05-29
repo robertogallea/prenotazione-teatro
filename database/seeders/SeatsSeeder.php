@@ -39,71 +39,64 @@ class SeatsSeeder extends Seeder
 {
     // ── Struttura posti ────────────────────────────────────────────────────
 
-    /** Posti platea: 9 pari + corridoio + 9 dispari (alto→basso = lontano→vicino palco) */
-    const PLATEA_SEATS = [18, 16, 14, 12, 10, 8, 6, 4, 2, 17, 15, 13, 11, 9, 7, 5, 3, 1];
-
-    /** Posti balconata: 12 consecutivi, numerazione propria */
-    const BALC_SEATS = [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
-
-    /** Il corridoio nella platea cade dopo il 9° posto (dopo il posto 2) */
-    const PLATEA_CORRIDOR_AFTER = 8; // indice 0-based (dopo slot 8 = dopo posto 2)
-
-    // ── Blocchi ────────────────────────────────────────────────────────────
+    const PLATEA_SEATS = [18,16,14,12,10,8,6,4,2, 17,15,13,11,9,7,5,3,1];
+    const BALC_SEATS   = [12,11,10,9,8,7,6,5,4,3,2,1];
+    const PLATEA_CORRIDOR_AFTER = 8;
 
     const BLOCKS = [
         [
-            'section' => 'platea',
-            'block_key' => 'balconata',
-            'label' => 'Balconata',
-            'sort_order' => 1,
-            'rows' => ['A', 'B', 'C', 'D', 'E'],
-            'seats_per_row' => self::BALC_SEATS,
-            'seat_offset' => 3,   // 3 slot vuoti sopra per centrare sui 18 della platea
-            'has_corridor' => false,
+            'section'             => 'platea',
+            'block_key'           => 'balconata',
+            'label'               => 'Balconata',
+            'sort_order'          => 1,
+            'rows'                => ['E','D','C','B','A'],
+            'seats_per_row'       => self::BALC_SEATS,
+            'seat_offset'         => 3,
+            'has_corridor'        => false,
             'corridor_after_slot' => null,
         ],
         [
-            'section' => 'platea',
-            'block_key' => 'left',
-            'label' => 'Blocco sinistro',
-            'sort_order' => 2,
-            'rows' => [20, 21, 22],
-            'seats_per_row' => self::PLATEA_SEATS,
-            'seat_offset' => 0,
-            'has_corridor' => true,
+            'section'             => 'platea',
+            'block_key'           => 'left',
+            'label'               => 'Blocco sinistro',
+            'sort_order'          => 2,
+            'rows'                => [22, 21, 20],
+            'seats_per_row'       => self::PLATEA_SEATS,
+            'seat_offset'         => 0,
+            'has_corridor'        => true,
             'corridor_after_slot' => self::PLATEA_CORRIDOR_AFTER,
         ],
         [
-            'section' => 'platea',
-            'block_key' => 'center',
-            'label' => 'Blocco centrale',
-            'sort_order' => 3,
-            'rows' => [10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
-            'seats_per_row' => self::PLATEA_SEATS,
-            'seat_offset' => 0,
-            'has_corridor' => true,
+            'section'             => 'platea',
+            'block_key'           => 'center',
+            'label'               => 'Blocco centrale',
+            'sort_order'          => 3,
+            'rows'                => [19,18,17,16,15,14,13,12,11,10],
+            'seats_per_row'       => self::PLATEA_SEATS,
+            'seat_offset'         => 0,
+            'has_corridor'        => true,
             'corridor_after_slot' => self::PLATEA_CORRIDOR_AFTER,
         ],
         [
-            'section' => 'platea',
-            'block_key' => 'right',
-            'label' => 'Blocco destro',
-            'sort_order' => 4,
-            'rows' => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-            'seats_per_row' => self::PLATEA_SEATS,
-            'seat_offset' => 0,
-            'has_corridor' => true,
+            'section'             => 'platea',
+            'block_key'           => 'right',
+            'label'               => 'Blocco destro',
+            'sort_order'          => 4,
+            'rows'                => [9,8,7,6,5,4,3,2,1,0],
+            'seats_per_row'       => self::PLATEA_SEATS,
+            'seat_offset'         => 0,
+            'has_corridor'        => true,
             'corridor_after_slot' => self::PLATEA_CORRIDOR_AFTER,
         ],
         [
-            'section' => 'galleria',
-            'block_key' => 'gallery',
-            'label' => 'Galleria',
-            'sort_order' => 1,
-            'rows' => ['F1g', 25, 26, 27, 28, 29, 30, 31, 32],
-            'seats_per_row' => self::PLATEA_SEATS,
-            'seat_offset' => 0,
-            'has_corridor' => true,
+            'section'             => 'galleria',
+            'block_key'           => 'gallery',
+            'label'               => 'Galleria',
+            'sort_order'          => 1,
+            'rows'                => [32,31,30,29,28,27,26,25,'F1g'],
+            'seats_per_row'       => self::PLATEA_SEATS,
+            'seat_offset'         => 0,
+            'has_corridor'        => true,
             'corridor_after_slot' => self::PLATEA_CORRIDOR_AFTER,
         ],
     ];
