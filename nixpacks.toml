@@ -29,7 +29,7 @@ cmds = [
                             ]
 
                             [start]
-                            cmd = "mkdir -p /app/storage/database && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
+                            cmd = "mkdir -p /app/storage/database && touch /app/storage/database/db.sqlite && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
   "php artisan view:cache"
 ]
 
